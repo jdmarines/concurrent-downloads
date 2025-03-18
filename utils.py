@@ -68,3 +68,19 @@ def maybe_download_sprite(session, sprite_url: str):
         if response.status_code == 200:
             content = response.content
     return content
+
+
+
+import aiohttp
+
+async def async_maybe_download_sprite(session: aiohttp.ClientSession, url: str):
+    try:
+        async with session.get(url) as response:
+            if response.status == 200:
+                return await response.read()
+            else:
+                print(f"Error {response.status} al descargar {url}")
+                return None
+    except Exception as e:
+        print(f"Excepción al descargar {url}: {e}")
+        return None
